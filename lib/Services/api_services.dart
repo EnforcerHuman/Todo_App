@@ -17,41 +17,31 @@ class ApiServices {
     final response = await http.post(uri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     print(response.statusCode);
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add todo');
+    }
   }
 
-  // Future<void> getTodo() async {
-  //   final url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
-  //   final uri = Uri.parse(url);
-  //   final response = await http.get(uri);
-  //   print(response.statusCode);
-  //   TodoModel todomodel = TodoModel.fromJson(jsonDecode(response.body));
-  //   print(todomodel);
-  // }
-
-  Future<TodoModel?> getTodo() async {
+  Future<List<TodoModel>?> getTodo() async {
     final url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
     final uri = Uri.parse(url);
 
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
-        final todomodel = TodoModel.fromJson(jsonDecode(response.body));
-        TodoModel todo = todomodel;
-
-        return todomodel;
+        final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        final List<dynamic> jsonList = jsonResponse['items'];
+        print(jsonList);
+        final List<TodoModel> todos =
+            jsonList.map((json) => TodoModel.fromJson(json)).toList();
+        return todos;
       } else {
-        // Handle unsuccessful response (e.g., print error message)
         print('Error getting todos: Status code ${response.statusCode}');
-        return null; // Or throw an exception if appropriate
+        return null;
       }
-    } on SocketException catch (e) {
-      // Handle socket exceptions (e.g., connection reset)
-      print('Socket error: $e');
-      return null; // Or throw a specific exception for handling
     } catch (e) {
-      // Handle other exceptions (e.g., decoding errors)
-      print('Error: $e');
-      return null; // Or throw a generic exception
+      print('Error parsing todos: $e');
+      return null;
     }
   }
 }

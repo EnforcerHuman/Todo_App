@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todo/Services/api_services.dart';
 
-class AddTodo extends StatefulWidget {
-  const AddTodo({super.key});
+class AddTodoScreen extends StatefulWidget {
+  const AddTodoScreen({super.key});
 
   @override
-  State<AddTodo> createState() => _AddTodoState();
+  State<AddTodoScreen> createState() => _AddTodoScreenState();
 }
 
-class _AddTodoState extends State<AddTodo> {
+class _AddTodoScreenState extends State<AddTodoScreen> {
   final ApiServices api = ApiServices();
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _AddTodoState extends State<AddTodo> {
           ),
           ElevatedButton(
               onPressed: () {
-                api.submitdata('ASWIN', 'Brocamp');
+                api.submitdata('MELBIN', 'Brocamp');
               },
               child: Text('Submit'))
         ]),
