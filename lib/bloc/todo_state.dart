@@ -6,18 +6,15 @@ abstract class TodoState {
 }
 
 class TodoInitial extends TodoState {
-  TodoInitial() : super(todos: []);
+  TodoInitial() : super(todos: const []);
 }
 
 class TodoLoading extends TodoState {
-  TodoLoading() : super(todos: []);
+  TodoLoading({required super.todos});
 }
 
 class TodoLoaded extends TodoState {
-  @override
-  final List<TodoModel> todos;
-
-  TodoLoaded(this.todos) : super(todos: todos);
+  TodoLoaded({required super.todos});
 }
 
 class TodoError extends TodoState {

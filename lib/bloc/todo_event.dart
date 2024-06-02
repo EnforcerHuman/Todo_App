@@ -8,3 +8,18 @@ class AddTodo extends TodoEvent {
 
   AddTodo(this.title, this.description);
 }
+
+class DeleteTodo extends TodoEvent {
+  final String id;
+
+  DeleteTodo({required this.id});
+}
+
+class UpdateTodo extends TodoEvent {
+  final String id;
+  final String title;
+  final String description;
+
+  UpdateTodo(
+      {required this.id, required this.title, required this.description});
+}
