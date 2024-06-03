@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:todo/Services/api_services.dart';
 import 'package:todo/bloc/todo_event.dart';
 import 'package:todo/bloc/todo_state.dart';
@@ -26,10 +27,11 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<AddTodo>((event, emit) async {
       final currentstate = state;
-      print(currentstate.todos);
-      emit(currentstate);
+      emit(TodoLoading(
+          todos: currentstate is TodoLoaded ? currentstate.todos : []));
       try {
         await apiServices.submitdata(event.title, event.description);
+        emit(TodoAdded(todos: []));
         final todos = await apiServices.getTodo();
         if (todos != null) {
           emit(TodoLoaded(todos: todos));
@@ -47,13 +49,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<DeleteTodo>((event, emit) async {
       final currentstate = state;
+      emit(TodoLoaded(todos: currentstate.todos));
       try {
         await apiServices.deletetodo(event.id);
         final todos = await apiServices.getTodo();
         if (todos != null) {
           emit(TodoLoaded(todos: todos));
         } else {
-          emit(TodoError('Failed to delete data'));
+          emit(TodoError('Failed to reload todos after deleting'));
         }
       } on SocketException catch (e) {
         emit(TodoError('Network error: $e'));

@@ -22,3 +22,7 @@ class TodoError extends TodoState {
 
   TodoError(this.message) : super(todos: []);
 }
+
+class TodoAdded extends TodoState {
+  TodoAdded({required super.todos});
+}

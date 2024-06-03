@@ -1,3 +1,4 @@
+// import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/Screens/edit_screen.dart';
@@ -10,6 +11,7 @@ class TaskWidget extends StatelessWidget {
   final String subtitle;
   final String id;
   final int index;
+
   const TaskWidget(
       {super.key,
       required this.title,
@@ -19,9 +21,6 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
-    var containerSize = media.width / 3 - 30;
-    ApiServices apiservices = ApiServices();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: AspectRatio(
@@ -49,7 +48,6 @@ class TaskWidget extends StatelessWidget {
                           ),
                           Text(
                             title,
-                            // style: Theme.of(context).textTheme,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -58,7 +56,6 @@ class TaskWidget extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         subtitle,
-                        // style: Theme.of(context).textTheme.subtitle1,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
